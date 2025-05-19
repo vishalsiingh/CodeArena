@@ -1,17 +1,10 @@
-# Use PHP 8.2 with Apache
-FROM php:8.2-apache
+FROM php:8.0-apache
 
-# Enable Apache mod_rewrite
+# Install mysqli extension
+RUN docker-php-ext-install mysqli
+
+# Copy your app code to the web root
+COPY . /var/www/html/
+
+# (Optional) Enable Apache rewrite module
 RUN a2enmod rewrite
-
-# Copy your code to Apache's web root
-COPY ./public /var/www/html/
-
-# Set working directory
-WORKDIR /var/www/html/
-
-# Give Apache access rights (optional but safe)
-RUN chown -R www-data:www-data /var/www/html
-
-# Optional: expose the default port
-EXPOSE 80
